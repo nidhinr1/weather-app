@@ -20,7 +20,7 @@
         <div class="weather">
             <img src="images/clear.png" class="icon">
             <p class="error"></p>
-            <p class="reason"></p>
+            <p class="reason" style="color: whitesmoke;"></p>
             <h1 class="temps">--°C</h1>
             <h2 class="citys">--</h2>
             <div class="details">
@@ -49,7 +49,7 @@
             {
             console.log(data);
             document.querySelector(".error").innerHTML=" ";
-            document.querySelector(".reason").innerHTML=" ";
+            document.querySelector(".reason").innerHTML=data.weather[0].main;
             document.querySelector(".citys").innerHTML=data.name;
             document.querySelector(".temps").innerHTML=data.main.temp+ '°C';
             document.querySelector(".humiditys").innerHTML=data.main.humidity + '%';
@@ -73,6 +73,9 @@
                 wicon.src="images/snow.png";
             }
             else if(data.weather[0].main=="Haze"){
+                wicon.src="images/mist.png";
+            }
+            else if(data.weather[0].main=="Fog"){
                 wicon.src="images/mist.png";
             }
             else{
