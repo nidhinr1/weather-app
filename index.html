@@ -5,31 +5,96 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather-app</title>
     <link rel="stylesheet" href="style.css">
-    <script src="main.js"></script>
 </head>
 <body>
     <div class="main">
         <div class="search">
+            <img class="logo" src="images/logo.gif";">
             <input type="text" placeholder="Enter city name" spellcheck="false">
             <button><img src="images/search.png"></button>
         </div>
+        <div class="Title">
+            <img src="images/logo.gif">
+            <h1>WeatherApp</h1>
+        </div>
         <div class="weather">
-            <img src="images/clear.png" alt="weather-icon">
-            <h1 class="temps">31°C</h1>
-            <h2 class="citys">Trivandrum</h2>
+            <img src="images/clear.png" class="icon">
+            <p class="error"></p>
+            <p class="reason"></p>
+            <h1 class="temps">--°C</h1>
+            <h2 class="citys">--</h2>
             <div class="details">
             <div class="humidity">
                 <img src="images/humidity.png">
-                <h2 class="humiditys">50%</h2>
+                <h2 class="humiditys">--%</h2>
                 <p>Humidity</p>
             </div>
             <div class="wind">
                 <img src="images/wind.png">
-                <h2 class="winds">4</h2>
+                <h2 class="winds">--</h2>
                 <p>Wind</p>
             </div>
             </div>
         </div>
     </div>
+    <script>
+        const apiurl="https://api.openweathermap.org/data/2.5/weather?&units=metric&appid=4073b31f2e5c78ab6c7b41b1572d7ac6&q=";
+        const searchbox=document.querySelector(".main .search input");
+        const searchbut=document.querySelector(".main .search button");
+        const wicon=document.querySelector(".icon");
+        async function weather(city){
+            const api= await fetch(apiurl + city);
+            var data=await api.json();
+            if(data.cod==200)
+            {
+            console.log(data);
+            document.querySelector(".error").innerHTML=" ";
+            document.querySelector(".reason").innerHTML=" ";
+            document.querySelector(".citys").innerHTML=data.name;
+            document.querySelector(".temps").innerHTML=data.main.temp+ '°C';
+            document.querySelector(".humiditys").innerHTML=data.main.humidity + '%';
+            document.querySelector(".winds").innerHTML=data.wind.speed + 'km/h';
+            if (data.weather[0].main == "Clouds"){
+                wicon.src="images/clouds.png";
+            }
+            else if(data.weather[0].main == "Clear"){
+                wicon.src="images/clear.png";
+            }
+            else if(data.weather[0].main == "Drizzle"){
+                wicon.src="images/drizzle.png";
+            }
+            else if(data.weather[0].main == "Mist"){
+                wicon.src="images/mist.png";
+            }
+            else if(data.weather[0].main == "Rain"){
+                wicon.src="images/rain.png";
+            }
+            else if(data.weather[0].main =="Snow"){
+                wicon.src="images/snow.png";
+            }
+            else if(data.weather[0].main=="Haze"){
+                wicon.src="images/mist.png";
+            }
+            else{
+                wicon.src="images/clear.png";
+            }
+            }
+            else{
+               wicon.src="images/error.gif";
+               document.querySelector(".error").innerHTML="404 Not found!";
+               document.querySelector(".reason").innerHTML="City name may invalid!";
+               document.querySelector(".citys").innerHTML="---";
+                document.querySelector(".temps").innerHTML='---°C';
+                document.querySelector(".humiditys").innerHTML='----%';
+                document.querySelector(".winds").innerHTML='---km/h';
+            }
+            document.querySelector(".weather").style.display="block";
+            document.querySelector(".Title").style.display="none";
+            document.querySelector(".logo").style.display="block";
+        }
+        searchbut.addEventListener('click', ()=>{
+            weather(searchbox.value);
+        })
+    </script>
 </body>
 </html>
