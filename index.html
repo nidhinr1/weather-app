@@ -9,7 +9,7 @@
 <body>
     <div class="main">
         <div class="search">
-            <img class="logo" src="images/logo.gif";">
+            <img class="logo" src="images/logo.gif";>
             <input type="text" placeholder="Enter city name" spellcheck="false">
             <button><img src="images/search.png"></button>
         </div>
@@ -83,10 +83,10 @@
             }
             }
             else{
-               wicon.src="images/error.gif";
-               document.querySelector(".error").innerHTML="404 Not found!";
-               document.querySelector(".reason").innerHTML="City name may invalid!";
-               document.querySelector(".citys").innerHTML="---";
+                wicon.src="images/error.gif";
+                document.querySelector(".error").innerHTML="404 Not found!";
+                document.querySelector(".reason").innerHTML="City name may invalid!";
+                document.querySelector(".citys").innerHTML="---";
                 document.querySelector(".temps").innerHTML='---°C';
                 document.querySelector(".humiditys").innerHTML='----%';
                 document.querySelector(".winds").innerHTML='---km/h';
@@ -98,6 +98,17 @@
         searchbut.addEventListener('click', ()=>{
             weather(searchbox.value);
         })
+        searchbox.addEventListener('keydown', (event) => {
+        if (event.keyCode === 13) {
+        event.preventDefault();
+        if(searchbox.value == ""){
+            window.alert("Input cannot be empty!")
+            console.error("Input Empty!")
+        }
+        else{
+            weather(searchbox.value);
+        }
+        }})
     </script>
 </body>
 </html>
